@@ -30,6 +30,8 @@
 
 ## 函数1: PSTN 下载回调函数
 
+入口函数配置：`index.download_handler`
+
 基础配置：
 
 ```
@@ -66,6 +68,8 @@ TARGET_BUCKET_PATH=/call_recordings
 ```
 
 ## 函数2: 录音转文字函数
+
+入口函数配置：`index.asr_handler`
 
 基础配置：
 

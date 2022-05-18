@@ -2,7 +2,7 @@
 
 `PSTN`电话挂断之后，自动触发回调函数，下载录音文件到COS，然后通过COS触发器触发 语音转换函数执行，整体的处理流程如下：
 
-![](https://user-images.githubusercontent.com/251222/168951388-772c6a60-7f03-407c-b044-8a3f693d394a.png)
+![](https://user-images.githubusercontent.com/251222/168952057-6af880db-cdd1-4618-8672-e4524b09b354.png)
 
 转换结果示例：
 

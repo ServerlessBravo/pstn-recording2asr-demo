@@ -1,8 +1,10 @@
 ## PSTN Call Record to Text with ASR
 
-`PSTN`电话挂断之后，自动触发回调函数，下载录音文件到COS，然后通过COS触发器触发 语音转换函数执行。
+`PSTN`电话挂断之后，自动触发回调函数，下载录音文件到COS，然后通过COS触发器触发 语音转换函数执行，整体的处理流程如下：
 
-示例：
+![](https://user-images.githubusercontent.com/251222/168951388-772c6a60-7f03-407c-b044-8a3f693d394a.png)
+
+转换结果示例：
 
 ```text
 ---------------- converted result ---------------

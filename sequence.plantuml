@@ -1,0 +1,55 @@
+@startuml
+!theme mars
+
+autonumber
+skinparam sequenceMessageAlign center
+
+actor Caller
+actor Callee
+
+/' For demo purpose, merge 2 callback and download functions into one '/
+
+participant Application
+participant PSTN
+participant "Callback Func" as CallbackFunc
+participant COS
+participant "Audio Transform Func" as AudioTransformFunc
+participant "ASR Service" as ASRService
+
+Caller -> Application: Request for a Call with Callee's numer
+activate Application
+Application -> PSTN: Generate and bind the virtual number
+PSTN --> Application: Get the generated virtual numberr
+Application --> Caller: Send the virtual number back
+deactivate
+
+Caller -> Callee: Call with virtual number
+Caller <--> Callee: Drop the call
+
+... <color:red>**wait for 2 minutes**</color> \n <color:red>**for recording generation**</color> ...
+
+PSTN -> CallbackFunc: Send callback \n request with audio link
+activate CallbackFunc
+CallbackFunc -> COS: Download audio file to cos
+COS --> CallbackFunc: Persistence Success
+CallbackFunc --> PSTN: Callback has been processed
+deactivate CallbackFunc
+
+COS ->> AudioTransformFunc: Trigger the function with COS event
+AudioTransformFunc -->> COS: Trigger asynchronously
+
+activate AudioTransformFunc
+AudioTransformFunc -> AudioTransformFunc: Encode the audio to base64
+AudioTransformFunc -> ASRService: Submit ASR job with encoded audio data
+ASRService --> AudioTransformFunc: ASR Job is submmited
+
+group Wait for ASR Job
+    loop until job finished
+        AudioTransformFunc -> ASRService: Check is job finished
+        ASRService --> AudioTransformFunc: Get Job status
+    end
+end
+AudioTransformFunc -> AudioTransformFunc: Print the transformed audio result
+
+
+@enduml
